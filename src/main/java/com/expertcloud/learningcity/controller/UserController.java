@@ -3,9 +3,9 @@ package com.expertcloud.learningcity.controller;
 import com.expertcloud.learningcity.model.dto.user.UserRequest;
 import com.expertcloud.learningcity.model.dto.user.UserResponse;
 import com.expertcloud.learningcity.service.UserService;
+import com.expertcloud.learningcity.util.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +25,8 @@ public class UserController {
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponse> getUser(@PathVariable Long userId){
 
-        Assert.notNull(userId, "UserId cannot be null");
+        Validator.idNotNull(userId);
+
         UserResponse user = userService.getUser(userId);
         return ResponseEntity.ok().body(user);
     }
@@ -39,10 +40,10 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest request){
-        Assert.notNull(request, "Request cannot be null");
+
+        Validator.requestNotNull(request);
 
         UserResponse userResponse = userService.saveUser(request);
-
         return ResponseEntity.created(null).body(userResponse);
     }
 

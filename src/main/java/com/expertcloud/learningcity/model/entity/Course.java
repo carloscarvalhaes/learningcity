@@ -3,7 +3,6 @@ package com.expertcloud.learningcity.model.entity;
 import com.expertcloud.learningcity.model.dto.course.CourseRequest;
 import lombok.Data;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
