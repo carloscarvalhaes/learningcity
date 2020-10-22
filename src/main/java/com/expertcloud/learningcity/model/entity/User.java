@@ -1,16 +1,15 @@
-package com.expertcloud.learningcity.model;
+package com.expertcloud.learningcity.model.entity;
 
-import lombok.AllArgsConstructor;
+import com.expertcloud.learningcity.model.dto.user.UserRequest;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
+@Entity(name = "system_user")
 @Data
 @NoArgsConstructor
 public class User {
@@ -19,16 +18,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
     private String name;
-
-    @Column
     private String username;
-
-    @Column
     private String email;
-
-    @Column
     private String password;
+
+    public User (UserRequest request){
+        this.name = request.getName();
+        this.email = request.getEmail();
+        this.username = request.getUsername();
+        this.password = request.getPassword();
+    }
 
 }
