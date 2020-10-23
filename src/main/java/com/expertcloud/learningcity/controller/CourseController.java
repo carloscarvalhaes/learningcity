@@ -5,6 +5,7 @@ import com.expertcloud.learningcity.model.dto.course.CourseResponse;
 import com.expertcloud.learningcity.service.CourseService;
 import com.expertcloud.learningcity.util.Validator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/course")
@@ -29,13 +31,15 @@ public class CourseController {
 
         Validator.idNotNull(courseId);
 
-        CourseResponse course = courseService.getCourse(courseId);
+        CourseResponse course = courseService.getCourseRequest(courseId);
+        log.info("Course get {}", course);
         return ResponseEntity.ok().body(course);
     }
 
     @GetMapping
     public ResponseEntity<List<CourseResponse>> findAllCourses() {
         List<CourseResponse> allCourses = courseService.findAllCourses();
+        log.info("get all courses");
         return ResponseEntity.ok().body(allCourses);
     }
 
@@ -45,6 +49,7 @@ public class CourseController {
         Validator.requestNotNull(request);
 
         CourseResponse courseResponse = courseService.saveCourse(request);
+        log.info("Course created: {}", courseResponse);
         return ResponseEntity.created(null).body(courseResponse);
 
     }
@@ -55,6 +60,7 @@ public class CourseController {
         Validator.idNotNull(courseId);
 
         courseService.removeCourse(courseId);
+        log.info("Course removed: {}", courseId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

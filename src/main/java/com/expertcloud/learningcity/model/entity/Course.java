@@ -1,7 +1,9 @@
 package com.expertcloud.learningcity.model.entity;
 
 import com.expertcloud.learningcity.model.dto.course.CourseRequest;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +14,8 @@ import java.util.List;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Course {
 
     @Id

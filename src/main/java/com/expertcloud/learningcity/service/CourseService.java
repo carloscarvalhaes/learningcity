@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.expertcloud.learningcity.util.GenericMessages.UNABLE_TO_FIND_COUSE;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -20,26 +22,35 @@ public class CourseService {
 
     private final CourseRepository courseRepository;
 
-    public CourseResponse getCourse(Long courseId){
+    public CourseResponse getCourseRequest(Long courseId) {
         Optional<Course> byId = courseRepository.findById(courseId);
-        if (byId.isEmpty()){
-            log.error("Unable to find course");
-            throw new NotFoundException("Unable to find course");
+        if (byId.isEmpty()) {
+            log.error(UNABLE_TO_FIND_COUSE);
+            throw new NotFoundException(UNABLE_TO_FIND_COUSE);
         }
         return new CourseResponse(byId.get());
     }
 
-    public CourseResponse saveCourse(CourseRequest request){
+    protected Course getCourse(Long courseId) {
+        Optional<Course> byId = courseRepository.findById(courseId);
+        if (byId.isEmpty()) {
+            log.error(UNABLE_TO_FIND_COUSE);
+            throw new NotFoundException(UNABLE_TO_FIND_COUSE);
+        }
+        return byId.get();
+    }
+
+    public CourseResponse saveCourse(CourseRequest request) {
         Course course = new Course(request);
         course = courseRepository.save(course);
         return new CourseResponse(course);
     }
 
-    public List<CourseResponse> findAllCourses(){
+    public List<CourseResponse> findAllCourses() {
         return courseRepository.findAll().stream().map(CourseResponse::new).collect(Collectors.toList());
     }
 
-    public void removeCourse(Long courseId){
+    public void removeCourse(Long courseId) {
         try {
             courseRepository.deleteById(courseId);
         } catch (RuntimeException e) {
